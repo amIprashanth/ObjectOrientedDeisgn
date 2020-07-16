@@ -2,14 +2,24 @@ package learnDesign;
 import java.util.Arrays;
 import java.util.HashMap;
 
+class Bicycle{
+	public String size;
+	private Parts parts;
+	public Bicycle(String size, Parts parts){
+		this.size = size;
+		this.parts = parts;
+	}
 
-abstract class Bicycle{
-	protected String size;
+	public HashMap<String, String> getSpares(){
+		return parts.getSpares();
+	}
+}
+
+abstract class Parts{
 	protected String chain;
 	protected String tireSize;
 
-	public Bicycle(String size, String chain, String tireSize){
-		this.size = size;
+	public Parts(String chain, String tireSize){
 		this.chain = chain;
 		this.tireSize = tireSize;
 	}
@@ -34,11 +44,11 @@ abstract class Bicycle{
 	// declare methods
 }
 
-class RoadBike extends Bicycle{
+class RoadBikeParts extends Parts{
 	public String tapeColor;
 
-	public RoadBike(String size, String chain, String tireSize, String tapeColor){
-		super(size, chain, tireSize);
+	public RoadBikeParts(String chain, String tireSize, String tapeColor){
+		super(chain, tireSize);
 		this.tapeColor = tapeColor;
 	}
 
@@ -55,12 +65,12 @@ class RoadBike extends Bicycle{
 
 }
 
-class MountainBike extends Bicycle{
+class MountainBikeParts extends Parts{
 	private String frontShock;
 	private String rearShock;
 
-	public MountainBike(String size, String chain, String tireSize, String frontShock, String rearShock){
-		super(size, chain, tireSize);
+	public MountainBikeParts(String chain, String tireSize, String frontShock, String rearShock){
+		super(chain, tireSize);
 		this.frontShock = frontShock;
 		this.rearShock = rearShock;
 	}
@@ -78,43 +88,45 @@ class MountainBike extends Bicycle{
 
 }
 
-class RecumbentBike extends Bicycle{
-	private String flag;
-	public RecumbentBike(String size, String chain, String tireSize, String frontShock, String rearShock, String flag){
-		super(size, chain, tireSize);
-		this.flag = flag;
-	}
+// class RecumbentBike extends Bicycle{
+// 	private String flag;
+// 	public RecumbentBike(String size, String chain, String tireSize, String frontShock, String rearShock, String flag){
+// 		super(size, chain, tireSize);
+// 		this.flag = flag;
+// 	}
 
-	public HashMap<String, String> localSpares(){
-		HashMap<String, String> newMap = new HashMap<String, String> ();
-		newMap.put("flag", flag);		
-		return newMap;
-	}
+// 	public HashMap<String, String> localSpares(){
+// 		HashMap<String, String> newMap = new HashMap<String, String> ();
+// 		newMap.put("flag", flag);		
+// 		return newMap;
+// 	}
 
-	public String defaultChain(){
-		if(chain!=null) return chain;
-		return "9-speed";
-	}
+// 	public String defaultChain(){
+// 		if(chain!=null) return chain;
+// 		return "9-speed";
+// 	}
 
-	public String defaultTireSize(){
-		if(tireSize!=null) return tireSize;
-		return "28";
-	}
+// 	public String defaultTireSize(){
+// 		if(tireSize!=null) return tireSize;
+// 		return "28";
+// 	}
 
-}
+// }
 
 public class BicycleDemo{
 	public static void main(String[] args){
-		RoadBike bike = new RoadBike("M", "30-speed", "100", "red");
+		RoadBikeParts parts = new RoadBikeParts("30-speed", "100", "red");
+		Bicycle bike = new Bicycle("M", parts);
 		System.out.println(bike.size);
 		System.out.println(bike.getSpares());
 
-		MountainBike bike1 = new MountainBike("S", null, null, "Manitou", "Fox");
+		MountainBikeParts parts1 = new MountainBikeParts(null, null, "Manitou", "Fox");
+		Bicycle bike1 = new Bicycle("S", parts1);
 		System.out.println(bike1.size);
 		System.out.println(bike1.getSpares());
 
-		RecumbentBike bike2 = new RecumbentBike("L", null, null, null, null, "orange");
-		System.out.println(bike2.size);
-		System.out.println(bike2.getSpares());
+		// RecumbentBike bike2 = new RecumbentBike("L", null, null, null, null, "orange");
+		// System.out.println(bike2.size);
+		// System.out.println(bike2.getSpares());
 	}
 }
